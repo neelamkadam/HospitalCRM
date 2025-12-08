@@ -82,7 +82,7 @@ const SignUp: React.FC = () => {
         })
       );
 
-      navigate(ROUTES.SET_ORGANIZATION);
+      navigate(ROUTES.COMPLETE_REGISTRATION);
     } catch (error) {
       form.setError("email", {
         type: "manual",

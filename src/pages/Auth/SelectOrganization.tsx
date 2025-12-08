@@ -32,7 +32,7 @@ const SelectOrganization: React.FC = () => {
       if (selected === "individual") {
         navigate(`${ROUTES.SET_UP_PATIENT}`);
       } else {
-        navigate(`${ROUTES.SET_ORGANIZATION}`);
+        navigate(`${ROUTES.COMPLETE_REGISTRATION}`);
       }
     }
   };

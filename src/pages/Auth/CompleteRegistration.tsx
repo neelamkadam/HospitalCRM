@@ -3,8 +3,6 @@ import AppButton from "../../components/AppButton";
 import AppInputField from "../../components/AppInput";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { completeRegistration } from "../../types/form.types";
-import { completeRegistrationShema } from "../../utils/validationSchems";
 import { usePostApi } from "../../services/use-api";
 import { AuthResponseBodyDataModel } from "../../types/response.types";
 import API_CONSTANTS from "../../constants/apiConstants";
@@ -20,7 +18,22 @@ import {
 } from "../../redux/RegisterUser";
 import LoginLogo from "./LoginLogo";
 import { Eye, EyeOff } from "lucide-react";
+import * as yup from "yup";
 import "intl-tel-input/build/css/intlTelInput.css";
+
+type CombinedRegistration = {
+  organizationName: string;
+  companyRegisterId: string;
+  secretKay: string;
+  password: string;
+};
+
+const combinedSchema = yup.object().shape({
+  organizationName: yup.string().required("Organization name is required"),
+  companyRegisterId: yup.string().required("Company registration ID is required"),
+  secretKay: yup.string().required("Secret key is required"),
+  password: yup.string().required("Password is required"),
+});
 
 const CompleteRegistration: React.FC = () => {
   const navigate = useNavigate();
@@ -29,9 +42,12 @@ const CompleteRegistration: React.FC = () => {
   const { registerUserData } = useSelector(
     (state: any) => state.registerUserData
   );
-  const form = useForm<completeRegistration>({
-    resolver: yupResolver(completeRegistrationShema),
+
+  const form = useForm<CombinedRegistration>({
+    resolver: yupResolver(combinedSchema),
     defaultValues: {
+      organizationName: registerUserData?.organizationName || "",
+      companyRegisterId: registerUserData?.companyRegistrationID || "",
       secretKay: "",
       password: "",
     },
@@ -51,9 +67,13 @@ const CompleteRegistration: React.FC = () => {
     );
   }, []);
 
-  const onSubmit: SubmitHandler<completeRegistration> = async (
-    data: completeRegistration
-  ) => {
+  const onSubmit: SubmitHandler<CombinedRegistration> = async (data) => {
+    dispatch(
+      setRegisterUserData({
+        organizationName: data.organizationName,
+        companyRegistrationID: data.companyRegisterId,
+      })
+    );
     try {
       // Common payload fields
       const basePayload = {
@@ -72,8 +92,8 @@ const CompleteRegistration: React.FC = () => {
         registerUserData.role !== "individual"
           ? {
               ...basePayload,
-              organizationName: registerUserData?.organizationName,
-              companyRegistrationID: registerUserData?.companyRegistrationID,
+              organizationName: data.organizationName,
+              companyRegistrationID: data.companyRegisterId,
             }
           : {
               ...basePayload,
@@ -116,33 +136,31 @@ const CompleteRegistration: React.FC = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
               >
                 <div>
-                  <AppInputField<completeRegistration>
+                  <AppInputField<CombinedRegistration>
+                    name="organizationName"
+                    form={form}
+                    label="Organization Name"
+                    placeholder="Organization Name"
+                  />
+                </div>
+                <div>
+                  <AppInputField<CombinedRegistration>
+                    name="companyRegisterId"
+                    form={form}
+                    label="Company Registration Id"
+                    placeholder="Company Registration Id"
+                  />
+                </div>
+                <div>
+                  <AppInputField<CombinedRegistration>
                     name="secretKay"
                     form={form}
                     label="Medistry Secret Key"
                     placeholder="Medistry Secret Key"
                   />
                 </div>
-                {/* <div>
-                  <div className="flex flex-col mb-4">
-                    <label className="mb-2 font-medium text-sm text-[#1A2435] text-start">
-                      Phone Number
-                    </label>
-                    <input
-                      ref={phoneInputRef}
-                      type="tel"
-                      className={cn(
-                        `w-full px-4 h-[46.22px] py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#526279] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.04)] placeholder:text-[17px]`,
-                        form.formState.errors.phone
-                          ? "!border-red-500 bg-[#fff2f4] focus:ring-red-500"
-                          : ""
-                      )}
-                      placeholder="Enter phone number"
-                    />
-                  </div>
-                </div> */}
                 <div className="relative">
-                  <AppInputField<completeRegistration>
+                  <AppInputField<CombinedRegistration>
                     name="password"
                     type={showPassword ? "text" : "password"}
                     form={form}
@@ -161,7 +179,6 @@ const CompleteRegistration: React.FC = () => {
                     )}
                   </button>
                 </div>
-
                 <AppButton
                   type="submit"
                   disable={isLoading}
