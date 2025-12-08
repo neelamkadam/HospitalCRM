@@ -1,0 +1,36 @@
+.ag-header-cell-resize {
+  display: none !important;
+}
+.custom-header-cell {
+  background-color: #334155;
+  color: white; /* Header text */
+}
+
+/* Define AG Grid-like styles */
+.ag-theme-quartz .ag-header :hover {
+  background-color: #334155;
+}
+
+.ag-theme-quartz .ag-header .ag-header-cell-text {
+  font-size: 1rem; /* 16px */
+  line-height: 1.5rem;
+  font-weight: 700 !important;
+  color: #f3f4f6 !important;
+}
+
+.ag-theme-quartz .ag-root-wrapper {
+  /* border: #f3f4f6 !important; */
+  border-color: transparent;
+  /* filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15)); */
+}
+
+.ag-theme-quartz .ag-row {
+  background-color: none !important;
+  border-width: 0.5px;
+  border-left: none;
+  border-right: none;
+}
+
+.ag-row-animation .ag-row-hover :hover :active {
+  background-color: none !important;
+}

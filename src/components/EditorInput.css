@@ -1,0 +1,88 @@
+/* Toast UI Editor font size customization */
+.editor-font-20 .toastui-editor-contents,
+.editor-font-20 .ProseMirror,
+.editor-font-20 .toastui-editor-contents p,
+.editor-font-20 .toastui-editor-contents div,
+.editor-font-20 .ProseMirror p,
+.editor-font-20 .ProseMirror div {
+  font-size: 20px !important;
+}
+
+.editor-font-30 .toastui-editor-contents,
+.editor-font-30 .ProseMirror,
+.editor-font-30 .toastui-editor-contents p,
+.editor-font-30 .toastui-editor-contents div,
+.editor-font-30 .ProseMirror p,
+.editor-font-30 .ProseMirror div {
+  font-size: 30px !important;
+}
+
+/* Target the editor's wysiwyg mode specifically */
+.editor-font-30 .toastui-editor-ww-container .toastui-editor-contents {
+  font-size: 30px !important;
+}
+
+/* Fix rounded border for Toast UI Editor */
+.toastui-editor {
+  border: none !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+}
+
+.toastui-editor * {
+  border: none !important;
+}
+
+.toastui-editor .toastui-editor-main {
+  border: none !important;
+  border-radius: 0.5rem !important;
+}
+
+.toastui-editor .toastui-editor-ww-container {
+  border: none !important;
+  border-radius: 0 0 0.5rem 0.5rem !important;
+}
+
+.toastui-editor .toastui-editor-toolbar {
+  border: none !important;
+  border-radius: 0.5rem 0.5rem 0 0 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.toastui-editor .toastui-editor-contents {
+  border: none !important;
+}
+
+.toastui-editor .toastui-editor-defaultUI {
+  border: none !important;
+}
+
+.toastui-editor .toastui-editor-md-container {
+  border: none !important;
+}
+
+.toastui-editor .toastui-editor-ww-container .toastui-editor .toastui-editor-ww-mode {
+  border: none !important;
+  border-radius: 4px !important;
+}
+
+.toastui-editor-defaultUI-toolbar{
+  border: none !important;
+  border-radius: 4px !important;
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 4px !important;
+}
+
+
+.toastui-editor-defaultUI{
+    position: relative !important; 
+    border: 1px solid #E5E7EB;
+  }
+
+.ProseMirror toastui-editor-contents {
+ border-radius: 4px !important;
+}
+
+.toastui-editor-md-mode .toastui-editor-md-container, .toastui-editor-ww-mode .toastui-editor-ww-container {
+  border-radius: 4px !important;
+} 

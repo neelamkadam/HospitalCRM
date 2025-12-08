@@ -1,0 +1,435 @@
+.fc .fc-today-button:enabled {
+  background-color: #fff !important;
+  color: #526279 !important;
+  border: none !important;
+  opacity: 1;
+  /* margin-right: -8px; */
+}
+
+.fc-day-today {
+  background-color: #fff !important;
+  font-weight: bold;
+}
+
+.fc-timeGridWeek-view .fc-col-header-cell.fc-day-today {
+  background-color: rgb(1, 87, 106) !important;
+  /* custom background */
+  color: #fff !important;
+}
+
+
+.fc-popover {
+  max-height: 200px !important;
+  max-width: 300px !important;
+  /* adjust height as needed */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.fc-popover .fc-popover-body {
+  max-height: 200px;
+  /* overflow-y: auto; */
+}
+
+/* FullCalendar default buttons */
+/* All buttons - default inactive */
+.fc .fc-button {
+  background-color: #ffffff !important;
+  color: #526279!important;
+  border: none !important;
+  border-radius: 9999px !important;
+  padding: 8px 20px !important;
+  font-size: 14px !important;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.12);
+  transition: color 0.3s ease, background-color 0.3s ease;
+  margin-right: 6px;
+}
+
+.fc-direction-ltr .fc-toolbar>*> :not(:first-child) {
+  margin-left: 0px;
+}
+
+
+.fc .fc-button:hover {
+  color: #016B83 !important;
+  border: none !important;
+  background-color: #CCE1E6 !important;
+}
+
+.fc .fc-timegrid-slot {
+  height: 40px !important;
+  border-left: none !important;
+}
+
+/* Dark mode hover (optional) */
+@media (prefers-color-scheme: dark) {
+  .fc .fc-button:hover {
+    color: #d1d5db !important;
+    /* gray-300 in Tailwind */
+    border: none !important;
+  }
+}
+
+/* Active button */
+.fc .fc-button.fc-button-active {
+  color: #016B83 !important;
+  border: none !important;
+  background-color: #CCE1E6 !important;
+  box-shadow: inset 0 0 0 2px transparent !important;
+}
+
+/* Disabled state */
+.fc .fc-button:disabled {
+  background-color: #fff !important;
+  color: #cccccc !important;
+  cursor: not-allowed;
+}
+
+
+
+/* Style the container for prev + next arrows */
+.fc .fc-button-group:has(.fc-prev-button):has(.fc-next-button) {
+  background-color: #fff;
+  border-radius: 9999px;
+  padding: 2px 6px;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.12);
+  margin-right: 7px;
+}
+
+.fc-button-group {
+  margin-left: 0px;
+}
+
+.fc .fc-button:focus,
+.fc .fc-button:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Optional: style individual arrow buttons inside */
+.fc .fc-prev-button,
+.fc .fc-next-button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #293343 !important;
+  padding: 6px 10px !important;
+  border-radius: 9999px !important;
+  margin-right: 0px;
+}
+
+/* Optional hover effect on each arrow */
+.fc .fc-prev-button:hover,
+.fc .fc-next-button:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.fc-toolbar-title {
+  font-family: "Inter", serif;
+  color: #666D79;
+}
+
+/* @media (min-width: 1024px) {
+  .fc .fc-toolbar-title {
+    margin-left: clamp(10px, 20vw, 388px);
+  }
+} */
+
+.fc-event {
+  font-size: 12px !important;
+  font-weight: 500;
+  padding: 1px;
+}
+
+.fc .fc-col-header-cell {
+  font-family: "Inter", serif;
+  font-size: 15px;
+  /* text-base = 16px */
+  font-weight: 550;
+  /* font-medium */
+  color: #666D79;
+}
+
+/* For Month view */
+.fc .fc-day-header {
+  font-family: "Inter", serif;
+  font-size: 15px;
+  font-weight: 550;
+  color: #666D79;
+}
+
+.fc-timegrid-event-harness {
+  margin-right: 8%;
+}
+
+@media (min-width: 1024px) {
+  .fc-theme-standard {
+    margin-top: 0px;
+  }
+}
+
+/* @media (min-width: 1190px) {
+  .fc-theme-standard {
+    margin-top: -46px;
+  }
+}  */
+
+.calendar-wrapper .fc-theme-standard {
+  margin-top: 0px;
+  height: calc(100vh - 90px);
+  overflow-y: hidden;
+}
+
+@media (min-width: 1190px) {
+  .calendar-wrapper.has-full-access .fc-theme-standard {
+    margin-top: -46px;
+  }
+}
+
+@media (min-width: 1224px) {
+  .fc .fc-toolbar-title {
+    margin-left: clamp(10px, 20vw, 388px);
+    color: #526279;
+    font-size: 1.150rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+    margin-top: 4px;
+    text-align: center;;
+  }
+}
+
+
+.fc .fc-timegrid-axis-cushion {
+  color: #666D79;
+  font-size: 1rem;
+  font-family: "Inter", serif;
+}
+
+.fc .fc-timegrid-axis-cushion,
+.fc .fc-timegrid-slot-label-cushion {
+  color: #666D79;
+  font-size: 1rem;
+  font-family: "Inter", serif;
+}
+
+.fc-timegrid-slot-label {
+  text-transform: uppercase;
+}
+
+/* Total scrollbar size */
+.fc-scroller {
+  scrollbar-width: thin;
+  scrollbar-color: #e5e5e5 #ffffff;
+  overflow: auto;
+  background-color: #fff;
+}
+
+.fc-scroller::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* Scrollbar thumb */
+.fc-scroller::-webkit-scrollbar-thumb {
+  background-color: #e5e5e5;
+  border-radius: 3px;
+}
+
+/* Scrollbar track */
+.fc-scroller::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
+
+/* 🔴 Up/Down arrow buttons */
+.fc-scroller::-webkit-scrollbar-button:single-button:vertical:decrement,
+.fc-scroller::-webkit-scrollbar-button:single-button:vertical:increment {
+  background-color: #f3f4f6;
+  height: 10px;
+  display: block;
+}
+
+/* Optional: Hover effect */
+.fc-scroller::-webkit-scrollbar-button:single-button:vertical:decrement:hover,
+.fc-scroller::-webkit-scrollbar-button:single-button:vertical:increment:hover {
+  background-color: darkred;
+}
+
+
+/* Time column */
+.fc-timegrid-axis {
+  background-color: #fff;
+}
+
+/* Day header */
+.fc-col-header-cell {
+  background-color: #fff;
+}
+
+
+/* Remove all table borders globally */
+.fc .fc-scrollgrid {
+  border: none !important;
+  box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.12);
+}
+
+/* Add border to the outer grid table */
+.fc .fc-scrollgrid {
+  border-radius: 12px;
+  /* Optional rounded corner */
+  overflow: hidden;
+}
+
+.fc-toolbar-chunk {
+  margin-top: 6px;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 16px;
+}
+
+
+/* For WebKit browsers (Chrome, Edge, Safari) */
+.search-patient ::-webkit-scrollbar {
+  width: 6px;
+  /* Thin scrollbar */
+}
+
+.search-patient ::-webkit-scrollbar-track {
+  background: #fafafa;
+  /* Very light grey track */
+}
+
+.search-patient ::-webkit-scrollbar-thumb {
+  background-color: rgba(180, 180, 180, 0.4);
+  /* Lighter, semi-transparent thumb */
+  border-radius: 4px;
+}
+
+/* Optional: subtle hover effect */
+.search-patient ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(150, 150, 150, 0.5);
+}
+
+/* Firefox */
+.search-patient {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(180, 180, 180, 0.4) #fafafa;
+}
+
+.fc-timegrid-event,
+.fc-timegrid-more-link {
+  border-radius: 6px;
+}
+
+.fc .fc-timegrid-now-indicator-line {
+  border-color: red !important;
+}
+
+/* Small circle at left axis (optional, like Google Calendar) */
+.fc .fc-timegrid-now-indicator-arrow {
+  border: none !important;
+  /* background: rgb(1, 87, 106) !important; */
+  background: red !important;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: -4px;
+  /* center it */
+}
+
+
+/* mobile view */
+
+/* 📱 Mobile fixes */
+@media (max-width: 768px) {
+
+  /* Reduce toolbar button size */
+  .fc .fc-button {
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+    margin-right: 4px !important;
+  }
+
+  /* Make prev/next + today inline */
+  .fc .fc-toolbar-chunk {
+    display: flex;
+    margin-bottom: -10px;
+    /* flex-wrap: wrap;
+    gap: 6px; */
+  }
+
+  /* Title font smaller */
+  .fc-toolbar-title {
+    font-size: 14px !important;
+    text-align: center;
+    margin: 4px 0 !important;
+  }
+
+  /* Weekday header smaller */
+  .fc .fc-col-header-cell {
+    font-size: 12px !important;
+    padding: 4px 2px !important;
+  }
+
+  /* Time labels smaller */
+  .fc .fc-timegrid-axis-cushion,
+  .fc .fc-timegrid-slot-label-cushion {
+    font-size: 10px !important;
+  }
+
+  /* Shrink event cards */
+  .fc-event {
+    font-size: 10px !important;
+    padding: 1px 2px !important;
+  }
+
+  /* Prevent horizontal scroll */
+  .fc .fc-scrollgrid {
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Make calendar fit in screen with scroll */
+  .calendar-wrapper .fc-theme-standard {
+    height: calc(100vh - 140px) !important;
+    overflow-y: auto !important;
+  }
+
+  /* Enable scrolling for mobile */
+  .fc-scroller {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Extra small (iPhone SE / older phones) */
+@media (max-width: 480px) {
+  .fc-toolbar-title {
+    font-size: 12px !important;
+    text-align: left;
+  }
+
+  .fc .fc-button {
+    font-size: 11px !important;
+    padding: 3px 8px !important;
+  }
+}
+
+.fc .fc-highlight {
+  background: #CCE1E6 !important;
+  opacity: 1;
+}
+
+/* rgb(204 225 230 / 1) */
+/* #cce1e6 */
+.fc-view-harness.fc-view-harness-active {
+  /* box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.12); */
+  border-radius: 12px;
+  /* optional for rounded corners */
+  margin-left: 1.5px;
+}
