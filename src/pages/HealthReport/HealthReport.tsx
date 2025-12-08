@@ -1171,7 +1171,7 @@ const HealthReportsPage: React.FC = () => {
             </AppButton>
           ) : null}
 
-          <AppButton
+          {/* <AppButton
             className="relative flex w-[120px] sm:w-[147px] h-[40px] px-[10px] py-[6px] justify-center items-center gap-[8px] flex-shrink-0 !text-[#334155] !bg-white border-none mt-[16px] mb-[16px] mr-[8px] md:mr-[16px] rounded-[30px] text-sm"
             onClick={() =>
               userData.role === "client"
@@ -1180,7 +1180,7 @@ const HealthReportsPage: React.FC = () => {
             }
           >
             <Plus /> Add Report
-          </AppButton>
+          </AppButton> */}
         </div>
       </header>
       {
@@ -1296,46 +1296,46 @@ const HealthReportsPage: React.FC = () => {
                           } ${
                             cell.column.columnDef.header === "edit" ? "w-0" : "" // Adjust width
                           }`}
-                          onClick={() => {
-                            if (selectedTab === "completed") {
-                              if (cell.column.columnDef.header === "View") {
-                                // navigate(
-                                //   `${ROUTES.REPORT_SUMMARY}?id=${
-                                //     row.original?._id
-                                //       ? row.original?._id
-                                //       : row.original?.reportId
-                                //   }`
-                                // );
-                              } else {
-                                if (
-                                  row.original?.emrEnabled &&
-                                  row.original?.emrType ===
-                                    Data_Constcnts.EMR_TYPE
-                                ) {
-                                  if (
-                                    row.original._id ||
-                                    row.original?.reportId
-                                  ) {
-                                    toggleEdit();
-                                    navigate(
-                                      `${ROUTES.HEALTHREPORT}?id=${
-                                        row.original?._id
-                                          ? row.original?._id
-                                          : row.original?.reportId
-                                      }&tab=completed`,
-                                      { replace: true }
-                                    );
-                                  }
-                                } else {
-                                  handleOpenPdf(
-                                    row.original?._id
-                                      ? row.original?._id
-                                      : row.original?.reportId
-                                  );
-                                }
-                              }
-                            }
-                          }}
+                          // onClick={() => {
+                          //   if (selectedTab === "completed") {
+                          //     if (cell.column.columnDef.header === "View") {
+                          //       // navigate(
+                          //       //   `${ROUTES.REPORT_SUMMARY}?id=${
+                          //       //     row.original?._id
+                          //       //       ? row.original?._id
+                          //       //       : row.original?.reportId
+                          //       //   }`
+                          //       // );
+                          //     } else {
+                          //       if (
+                          //         row.original?.emrEnabled &&
+                          //         row.original?.emrType ===
+                          //           Data_Constcnts.EMR_TYPE
+                          //       ) {
+                          //         if (
+                          //           row.original._id ||
+                          //           row.original?.reportId
+                          //         ) {
+                          //           toggleEdit();
+                          //           navigate(
+                          //             `${ROUTES.HEALTHREPORT}?id=${
+                          //               row.original?._id
+                          //                 ? row.original?._id
+                          //                 : row.original?.reportId
+                          //             }&tab=completed`,
+                          //             { replace: true }
+                          //           );
+                          //         }
+                          //       } else {
+                          //         handleOpenPdf(
+                          //           row.original?._id
+                          //             ? row.original?._id
+                          //             : row.original?.reportId
+                          //         );
+                          //       }
+                          //     }
+                          //   }
+                          // }}
                         >
                           {flexRender(
                             cell.column.columnDef.cell,

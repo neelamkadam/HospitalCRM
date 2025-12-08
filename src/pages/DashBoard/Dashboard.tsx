@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu";
 import { useGetApi } from "../../services/use-api";
 import API_CONSTANTS from "../../constants/apiConstants";
 import { useSidebar } from "../../components/ui/sidebar";
-import { ChevronDown } from "lucide-react";
-import AppButton from "../../components/AppButton";
 import DashboardCard from "../../components/DashBoardCard";
 import {
   capitalizeFirstLetter,
@@ -91,54 +82,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const DropdownFiilter = () => (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <div className="text-gray-500 bg-transparent font-normal border-0 shadow-none text-sm flex items-center pl-[12px] pr-[12px] pt-[10px] pb-[10px]">
-          <span className="mr-[6px]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M11.3333 8.66666H8V12H11.3333V8.66666ZM10.6667 1.33333V2.66666H5.33333V1.33333H4V2.66666H3.33333C2.59333 2.66666 2.00667 3.26666 2.00667 3.99999L2 13.3333C2 14.0667 2.59333 14.6667 3.33333 14.6667H12.6667C13.4 14.6667 14 14.0667 14 13.3333V3.99999C14 3.26666 13.4 2.66666 12.6667 2.66666H12V1.33333H10.6667ZM12.6667 13.3333H3.33333V5.99999H12.6667V13.3333Z"
-                fill="#8C929A"
-              />
-            </svg>
-          </span>
-          <span className="mr-[6px] text-[#8C929A]">
-            Show :{" "}
-            <span className="font-medium text-sm text-[#1A2435]">
-              {capitalizeFirstLetter(selectedPeriod)}
-            </span>
-          </span>{" "}
-          <ChevronDown />
-        </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-auto">
-        <DropdownMenuGroup>
-          {["month", "quarter", "year"].map((period) => (
-            <DropdownMenuItem
-              key={period}
-              className="cursor-pointer text-[#1A2435]"
-              style={{ fontSize: "16px" }}
-              onClick={() => [
-                fetchDashboardData(period as any),
-                dispatch(setSelectedPeriod(period)),
-              ]}
-            >
-              {capitalizeFirstLetter(period)}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+
 
   return (
     <>
@@ -149,11 +93,24 @@ const Dashboard: React.FC = () => {
             : "flex flex-1 flex-col gap-4 p-4 pt-0 mt-4 !bg=[#f3f4f6]"
         }`}
       >
-        <header className="flex justify-end">
-          <AppButton className="relative flex w-auto h-[40px] px-[10px] py-[6px] justify-center items-center gap-[8px] flex-shrink-0 !text-[#334155] !bg-white border-none mt-[0px] ml-[16px] rounded-[30px] text-sm">
-            <DropdownFiilter />
-          </AppButton>
-        </header>
+        <div className="flex flex-wrap gap-2 lg:flex-nowrap">
+          <div className="flex flex-wrap gap-2 w-full">
+            {["month", "quarter", "year"].map((period) => (
+              <a
+                key={period}
+                onClick={() => {
+                  dispatch(setSelectedPeriod(period));
+                  fetchDashboardData(period);
+                }}
+                className={`relative flex w-[48%] sm:w-[147px] h-[40px] px-3 py-2 justify-center items-center rounded-[30px] text-sm cursor-pointer shadow bg-white text-[#293343] ${
+                  selectedPeriod === period ? "font-bold" : ""
+                }`}
+              >
+                {capitalizeFirstLetter(period)}
+              </a>
+            ))}
+          </div>
+        </div>
         <div
           className={`grid auto-rows-min gap-4 grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 ${
             !userData?.organizationId?.appointmentsEnabled &&

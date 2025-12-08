@@ -527,40 +527,40 @@ const Patients: React.FC = () => {
                         className={`px-3 pt-2 pb-[0.6rem] text-gray-700 !font-medium cursor-pointer ${cell.column.columnDef.meta?.className || ""
                           } ${cell.column.columnDef.header === "edit" ? "w-0" : "" // Adjust width
                           }`}
-                        onClick={() => {
-                          if (
-                            userData?.organizationId?.emrEnabled &&
-                            userData?.organizationId?.emrType ===
-                            Data_Constcnts.EMR_TYPE
-                            // && row?.original?.healthSummaryId?.clientId
-                          ) {
-                            if (cell.column.columnDef.header === "View") {
-                              navigate(
-                                `${ROUTES.PATIENTS_OVERALL_HEALTH}?id=${row.original?._id}`
-                              );
-                            } else {
-                              console.log(
-                                "🚀 ~ cell.row.original:",
-                                cell.row.original
-                              );
-                              // if (
-                              //   cell.row.original.reportsCount > 0 ||
-                              //   cell?.row?.original?.healthSummaryId?.clientId
-                              // ) {
-                              if (row.original._id) {
-                                toggleEdit();
-                                navigate(
-                                  `${ROUTES.PATIENTS}?id=${row.original._id
-                                  }&summary=${row?.original?.healthSummaryId?.clientId
-                                    ? true
-                                    : false
-                                  }`
-                                );
-                              }
-                              // }
-                            }
-                          }
-                        }}
+                          // onClick={() => {
+                          //   if (
+                          //     userData?.organizationId?.emrEnabled &&
+                          //     userData?.organizationId?.emrType ===
+                          //     Data_Constcnts.EMR_TYPE
+                          //     // && row?.original?.healthSummaryId?.clientId
+                          //   ) {
+                          //     if (cell.column.columnDef.header === "View") {
+                          //       navigate(
+                          //         `${ROUTES.PATIENTS_OVERALL_HEALTH}?id=${row.original?._id}`
+                          //       );
+                          //     } else {
+                          //       console.log(
+                          //         "🚀 ~ cell.row.original:",
+                          //         cell.row.original
+                          //       );
+                          //       // if (
+                          //       //   cell.row.original.reportsCount > 0 ||
+                          //       //   cell?.row?.original?.healthSummaryId?.clientId
+                          //       // ) {
+                          //       if (row.original._id) {
+                          //         toggleEdit();
+                          //         navigate(
+                          //           `${ROUTES.PATIENTS}?id=${row.original._id
+                          //           }&summary=${row?.original?.healthSummaryId?.clientId
+                          //             ? true
+                          //             : false
+                          //           }`
+                          //         );
+                          //       }
+                          //       // }
+                          //     }
+                          //   }
+                          // }}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
