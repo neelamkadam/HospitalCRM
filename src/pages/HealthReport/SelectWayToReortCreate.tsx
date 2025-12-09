@@ -5,6 +5,10 @@ import { ROUTES } from "../../constants/routesConstants";
 import { Card, CardContent } from "../../components/ui/card";
 import CreateImage from "../../assets/CreatReport.svg";
 import UpoladImage from "../../assets/Upload.svg";
+// import Lottie from "lottie-react";
+// import FileUpload from "../../assets/annimationJSON/FileUpload.json";
+// import createweb from "../../assets/annimationJSON/createweb.json";
+
 import { useSelector } from "react-redux";
 // import AppModal from "../../components/AppModal";
 // import FileUpload from "./FileUpload";
@@ -26,7 +30,7 @@ const SelectWayToReortCreate = ({
       <div className="text-xl text-[#1A2435] font-medium px-6 py-3 text-left">
         Add a Report
       </div>
-      <div className="space-y-4 w-full px-6 pb-6">
+      <div className="flex items-center gap-4 w-full px-6 pb-6">
         {(userData?.organizationId?.createReportEnabled ||
           userData?.role != "client") && (
           <>
@@ -40,11 +44,12 @@ const SelectWayToReortCreate = ({
                 )
               }
             >
-              <CardContent className="flex flex-col items-center justify-center h-full">
-                <span className="mt-5">
+              <CardContent className="flex flex-col items-center justify-center h-full py-8">
+                <span className="mb-4">
                   <img src={CreateImage}></img>
+                  {/* <Lottie animationData={createweb} loop={true} /> */}
                 </span>
-                <div className="flex flex-col items-center justify-center mt-[-17px]">
+                <div className="flex flex-col items-center justify-center gap-2">
                   <h3 className="text-lg font-medium text-[#1A2435]">
                     Create New Report
                   </h3>
@@ -54,18 +59,21 @@ const SelectWayToReortCreate = ({
                 </div>
               </CardContent>
             </Card>
-            <div className="text-center text-gray-400">Or</div>
+            <div className="text-gray-400">Or</div>
           </>
         )}
         <Card
           className="transition hover:bg-[#f9fafb] cursor-pointer "
           onClick={() => onSelectOption("fileUpload")}
         >
-          <CardContent className="flex flex-col items-center justify-center h-full">
-            <span className="mt-5 cursor-pointer">
+          <CardContent className="flex flex-col items-center justify-center h-full py-8">
+            <span className="mb-4 cursor-pointer">
+              {/* <div className="w-48 h-48"> */}
+              {/* <Lottie animationData={FileUpload} loop={true} /> */}
+              {/* </div> */}
               <img src={UpoladImage}></img>
             </span>
-            <div className="flex flex-col items-center justify-center mt-[-17px]">
+            <div className="flex flex-col items-center justify-center gap-2">
               <h3 className="text-lg font-medium text-[#1A2435]">
                 Upload Report
               </h3>

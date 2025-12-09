@@ -404,7 +404,7 @@ const AppNavbar: React.FC = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="w-48 rounded-md border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
+            className="w-52 rounded-md border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
           >
             {userData?.role === "client" ? (
               <>
@@ -461,8 +461,9 @@ const AppNavbar: React.FC = () => {
                 >
                   <Building2 className="text-gray-600 dark:text-gray-400" />
                   <span className="block w-full text-sm cursor-pointer">
-                    {userData?.organizationId?.organizationName ||
-                      "Organization"}
+                    Organization Profile
+                    {/* {userData?.organizationId?.organizationName ||
+                      "Organization"} */}
                   </span>
                 </DropdownMenuItem>
                 <DropdownMenuItem

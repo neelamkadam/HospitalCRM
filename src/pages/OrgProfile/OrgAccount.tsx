@@ -11,7 +11,14 @@ import intlTelInput from "intl-tel-input";
 import "intl-tel-input/build/css/intlTelInput.css";
 import { cn } from "../../utils/common-utils";
 import PDFHeaderUpload from "../TeamManagement/PdfPreview";
-import Select from "react-select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../../components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 import TeamManagement from "../TeamManagement/TeamManagement";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import CreatReportSvg from "../../assets/org-profile-default.png";
@@ -24,6 +31,7 @@ import { UserThreeInitials } from "../../lib/utils";
 import { ServiceInOrg } from "./ServiceInOrg";
 import { useSidebar } from "../../components/ui/sidebar";
 import { setUserData } from "../../redux/AuthSlice";
+import Select from "react-select";
 
 const OrgAccount: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -234,6 +242,8 @@ const OrgAccount: React.FC = () => {
       ...provided,
       backgroundColor: "#E5ECED",
       borderRadius: "0.375rem",
+      width: "auto",
+      minWidth: "200px",
     }),
     option: (provided: any, state: any) => ({
       ...provided,
@@ -543,71 +553,44 @@ const OrgAccount: React.FC = () => {
   };
   const { state } = useSidebar();
 
+  const tabOptions = [
+    { label: "Org Info", value: "Org Info", param: "orgInfo" },
+    { label: "Billing", value: "Billing", param: "billing" },
+    { label: "Teams", value: "Teams", param: "teams" },
+    { label: "Services", value: "Services", param: "services" },
+    {
+      label: "Customisations",
+      value: "Customisations",
+      param: "customisations",
+    },
+  ];
+
   return (
     <div style={{ marginLeft: state == "collapsed" ? "28px" : "" }}>
-      <div className="flex flex-wrap gap-2 px-4 pt-4 lg:flex-nowrap">
-        <li className="flex flex-wrap gap-2 w-full">
-          <a
-            onClick={() => {
-              setSelectedTab("Org Info");
-              setSearchParams({ selectedTab: "orgInfo" });
-            }}
-            className={`relative flex w-[48%] sm:w-[147px] h-[40px] px-3 py-2 justify-center items-center rounded-[30px] text-sm cursor-pointer shadow bg-white text-[#293343] ${
-              selectedTab === "Org Info" ? "font-bold" : ""
-            }`}
-          >
-            Org Info
-          </a>
-
-          <a
-            onClick={() => {
-              setSelectedTab("Billing");
-              setSearchParams({ selectedTab: "billing" });
-            }}
-            className={`relative flex w-[48%] sm:w-[147px] h-[40px] px-3 py-2 justify-center items-center rounded-[30px] text-sm cursor-pointer shadow bg-white text-[#293343] ${
-              selectedTab === "Billing" ? "font-bold" : ""
-            }`}
-          >
-            Billing
-          </a>
-
-          <a
-            onClick={() => {
-              setSelectedTab("Teams");
-              setSearchParams({ selectedTab: "teams" });
-            }}
-            className={`relative flex w-[48%] sm:w-[147px] h-[40px] px-3 py-2 justify-center items-center rounded-[30px] text-sm cursor-pointer shadow bg-white text-[#293343] ${
-              selectedTab === "Teams" ? "font-bold" : ""
-            }`}
-          >
-            Teams
-          </a>
-
-          <a
-            onClick={() => {
-              setSelectedTab("Services");
-              setSearchParams({ selectedTab: "services" });
-            }}
-            className={`relative flex w-[48%] sm:w-[147px] h-[40px] px-3 py-2 justify-center items-center rounded-[30px] text-sm cursor-pointer shadow bg-white text-[#293343] ${
-              selectedTab === "Services" ? "font-bold" : ""
-            }`}
-          >
-            Services
-          </a>
-
-          <a
-            onClick={() => {
-              setSelectedTab("Customisations");
-              setSearchParams({ selectedTab: "customisations" });
-            }}
-            className={`relative flex w-[48%] sm:w-[160px] h-[40px] px-3 py-2 justify-center items-center rounded-[30px] text-sm cursor-pointer shadow bg-white text-[#293343] ${
-              selectedTab === "Customisations" ? "font-bold" : ""
-            }`}
-          >
-            Customisations
-          </a>
-        </li>
-      </div>
+      <header className="flex justify-end pr-4 pt-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger className="w-[180px] flex items-center justify-between h-[40px] px-[20px] py-[6px] bg-white border-none rounded-[30px] shadow-sm text-sm text-[#334155] gap-2 focus:outline-none">
+            {selectedTab}
+            <ChevronDown className="w-4 h-4" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[200px]">
+            <DropdownMenuGroup>
+              {tabOptions.map((tab) => (
+                <DropdownMenuItem
+                  key={tab.param}
+                  onClick={() => {
+                    setSelectedTab(tab.value);
+                    setSearchParams({ selectedTab: tab.param });
+                  }}
+                  className={selectedTab === tab.value ? "bg-[#E5ECED]" : ""}
+                >
+                  {tab.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </header>
       <div
         className={`${state == "collapsed" ? "" : ""} 
               bg-white flex-1 m-4 rounded-xl shadow-[0px_1px_3px_0px_rgba(16,24,40,0.12)]

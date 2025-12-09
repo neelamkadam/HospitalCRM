@@ -10,7 +10,7 @@ import AppButton from "../../components/AppButton";
 import API_CONSTANTS from "../../constants/apiConstants";
 import { useGetApi, usePostApi } from "../../services/use-api";
 import CustomTimePicker from "./CustomTimePicker";
-import { Plus, Search } from "lucide-react";
+import {  Search } from "lucide-react";
 import { customSelectStylesDuration as customStyleDuration } from "../../utils/common-utils";
 import { customSelectStylesAppointment as customStyleAppointment } from "../../utils/common-utils";
 import AppModal from "../../components/AppModal";
@@ -440,9 +440,9 @@ const AddAppointmentForm = ({ slot, toggleClose, userData, fetchAppoinments, sel
     //     }
     // }, [isModalOpen]);
 
-    const toggleAddPatient = () => {
-        setIsModalOpen((prev) => !prev);
-    };
+    // const toggleAddPatient = () => {
+    //     setIsModalOpen((prev) => !prev);
+    // };
 
     const toggleAddPatientClose = () => {
         setIsModalOpen((prev) => !prev);
@@ -556,7 +556,7 @@ const AddAppointmentForm = ({ slot, toggleClose, userData, fetchAppoinments, sel
                                 Select Patient
                             </label>
 
-                            {!isPast && !selectedEvent?._id && <p
+                            {/* {!isPast && !selectedEvent?._id && <p
                                 className="font-medium text-sm text-[#01576A] flex items-center cursor-pointer hover:underline"
                                 onClick={toggleAddPatient}
                             >
@@ -564,7 +564,7 @@ const AddAppointmentForm = ({ slot, toggleClose, userData, fetchAppoinments, sel
                                     <Plus size={17} />
                                 </span>
                                 Add a Patient
-                            </p>}
+                            </p>} */}
                         </div>
                         <div
                             className="border rounded-md shadow-[0px_1px_2px_0px_rgba(16,24,40,0.04)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[#526279]"
