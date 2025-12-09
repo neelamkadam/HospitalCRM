@@ -3,7 +3,6 @@ const colors = require("tailwindcss/colors");
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
-const medistryColor = "#01576A"
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -12,6 +11,29 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // 🎨 Healthcare Theme 
+        primary: {
+          DEFAULT: "#007AFF", // Medical Blue
+          dark: "#005BBB",
+          light: "#5AA9FF",
+          foreground: "#FFFFFF",
+        },
+        secondary: {
+          DEFAULT: "#00B4D8", // Teal / medical fresh
+          dark: "#0086A5",
+          light: "#74dee8",
+          foreground: "#FFFFFF",
+        },
+        accent: {
+          DEFAULT: "#27AE60", // Health green
+          dark: "#1F8E50",
+          light: "#68D19C",
+          foreground: "#FFFFFF",
+        },
+
+        medistryColor: {
+          DEFAULT: "#01576A",
+        },
         "bg-input": "hsl(210°, 6%, 34%)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -25,9 +47,6 @@ module.exports = {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
-        },
-        medistryColor:{
-          DEFAULT: medistryColor
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
