@@ -208,7 +208,7 @@ const AppNavbar: React.FC = () => {
 
   return (
     <header
-      className="flex h-16 items-center justify-between border-b bg-[#ffffff] px-4 md:ps-6 dark:bg-gray-900"
+      className="flex h-16 items-center justify-between border-b bg-gradient-to-r from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0] px-4 md:ps-6 dark:bg-gray-900"
       style={{ marginLeft: state == "collapsed" ? "28px" : "" }}
     >
       <div className="flex items-center mr-1 md:w-[200px]">
@@ -224,7 +224,7 @@ const AppNavbar: React.FC = () => {
             className="w-6 max-w-none fill-slate-400"
           />
         </div>
-        <span className="md:text-lg font-normal text-[#1A2435] !mr-1">
+        <span className="md:text-lg font-medium text-[#1A2435] !mr-1">
           {lastSegment ? capitalizeFirstLetter(lastSegment) : "Dashboard"}
         </span>
       </div>

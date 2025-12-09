@@ -44,17 +44,27 @@ export function NavMain({
               className="group/collapsible"
             >
               <SidebarMenuItem
+                // className={`${
+                //   isActive
+                //     ? "bg-[#EEEFF0] !hover:bg-[#EEEFF0]"
+                //     : "hover:bg-gray-100"
+                // } px-4 py-2 rounded-lg text-gray-700`}
                 className={`${
                   isActive
-                    ? "bg-[#EEEFF0] !hover:bg-[#EEEFF0]"
+                    ? "bg-[#ffff] !hover:bg-[#EEEFF0]"
                     : "hover:bg-gray-100"
                 } px-4 py-2 rounded-lg text-gray-700`}
               >
                 <SidebarMenuButton
                   asChild
+                  // className={`${
+                  //   isActive
+                  //     ? "!bg-[#EEEFF0] !hover:bg-[#EEEFF0]"
+                  //     : "!hover:bg-gray-100"
+                  // }`}
                   className={`${
                     isActive
-                      ? "!bg-[#EEEFF0] !hover:bg-[#EEEFF0]"
+                      ? "!bg-[#ffff] !hover:bg-[#EEEFF0]"
                       : "!hover:bg-gray-100"
                   }`}
                   tooltip={item.title}

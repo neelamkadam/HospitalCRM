@@ -1424,7 +1424,7 @@ const HealthReportsPage: React.FC = () => {
         className="dark:bg-gray-800 dark:text-gray-100"
         content={<HealthReportSidePannel />}
       />
-      <AppModal isOpen={isModalOpen} toggle={toggleClose} title="">
+      <AppModal isOpen={isModalOpen} toggle={toggleClose} title="" className="sm:max-w-2xl lg:max-w-3xl">
         <SelectWayToReortCreate
           onSelectOption={(option) => {
             if (option === "fileUpload") {

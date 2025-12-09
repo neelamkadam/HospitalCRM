@@ -154,7 +154,9 @@ export function AppSidebar({
 
   return (
     <Sidebar
-      className={`${state == "collapsed" ? "!w-20" : ""} !bg-white !z-[999]`}
+      className={`${
+        state == "collapsed" ? "!w-20" : ""
+      } !bg-gradient-to-b from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0] !z-[999]`}
       collapsible="icon"
       {...props}
     >
@@ -163,7 +165,7 @@ export function AppSidebar({
           <div className="lg:pt-[10px] self-center">
             <img src={NewAppLogo} className="h-8 w-8" alt="Header Image" />
             <p
-              className="w-6 h-6 shadow rounded-full bg-white z-10 cursor-pointer mt-5 flex items-center justify-center absolute right-[-12px] top-0"
+              className="w-6 h-6 shadow rounded-full !bg-transparent z-10 cursor-pointer mt-5 flex items-center justify-center absolute right-[-12px] top-0"
               onClick={() => toggleSidebar()}
             >
               <ChevronRight className="w-5" />
@@ -179,7 +181,7 @@ export function AppSidebar({
               />
             </div>
             <div className="relative w-[140px] overflow-hidden ml-[2px]">
-              <div className="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+              <div className="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-transparent to-transparent pointer-events-none z-10" />
               <div className="scrolling-text text-lg w-[140px] font-medium text-start text-[#394557] inline-block whitespace-nowrap will-change-transform">
                 {userData?.organizationId?.organizationName || "Medistry"}
               </div>

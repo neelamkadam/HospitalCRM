@@ -3264,6 +3264,7 @@ const OverallPatientsReport: React.FC = () => {
             isOpen={isReportModalOpen}
             toggle={toggleReportClose}
             title=""
+            className="sm:max-w-2xl lg:max-w-3xl"
           >
             <SelectWayToReortCreate
               patientId={reportId}

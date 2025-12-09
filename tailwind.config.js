@@ -32,7 +32,7 @@ module.exports = {
         },
 
         medistryColor: {
-          DEFAULT: "#01576A",
+          DEFAULT: "#005BBB",
         },
         "bg-input": "hsl(210°, 6%, 34%)",
         border: "hsl(var(--border))",

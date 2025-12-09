@@ -73,22 +73,25 @@ const AppLayout: React.FC<LayoutProps> = ({
       open={sideBarOpen}
     >
       {sidebar && <AppSidebar userPermissions={userData?.permissions} />}
-      <SidebarInset className="bg-transparent !bg-[#f3f4f6]">
+      <SidebarInset className="bg-gradient-to-br from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0]">
         {/* Sticky Header */}
         {header && (
           <div className="sticky top-0 z-50">
             <AppNavbar />
           </div>
         )}
-        <div className="!bg-[#f3f4f6]">
+        <div className="!bg-[#fff] rounded-tl-3xl">
           <Outlet />
           {children}
         </div>
-        {userData?.role === "client" && !confirmConsent &&
-          <div id="chatbot-container" className="fixed bottom-4 right-4 z-[9999] pointer-events-auto">
+        {userData?.role === "client" && !confirmConsent && (
+          <div
+            id="chatbot-container"
+            className="fixed bottom-4 right-4 z-[9999] pointer-events-auto"
+          >
             <ChatBot />
           </div>
-        }
+        )}
         <ConsentModal
           isOpen={confirmConsent}
           toggle={() => setConfirmConsent(false)}

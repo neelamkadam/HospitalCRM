@@ -41,7 +41,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   return (
     <div className="bg-white shadow-[0px_1px_3px_0px_rgba(16,24,40,0.12)] rounded-2xl h-full">
       {/* Header Section */}
-      <div className="flex justify-between items-center p-3 rounded-t-2xl bg-[#01576A]">
+      <div className="flex justify-between items-center p-3 rounded-t-2xl bg-medistryColor">
         <span className="text-white flex items-center opacity-80">
           {icon}
           <span className="ml-3 font-normal text-[18px] text-white leading-7">
