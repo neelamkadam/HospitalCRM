@@ -1327,12 +1327,12 @@ const OverallPatientsReport: React.FC = () => {
                 Back
               </AppButton>
               <span className="flex items-center">
-                <AppButton
+                {/* <AppButton
                   className="mt-10 flex w-[120px] sm:w-[147px] h-[40px] py-[6px] justify-center items-center flex-shrink-0 !text-[#334155] !bg-white border-none mr-[8px] rounded-[30px] text-sm"
                   onClick={() => setReportIsModalOpen(true)}
                 >
                   <Plus /> Add Report
-                </AppButton>
+                </AppButton> */}
                 <span
                   className={`cursor-pointer bg-white rounded-full text-[#293343] hover:text-[#293343] p-1 mt-10 shadow-[0px_1px_3px_0px_rgba(16,24,40,0.12)]`}
                 >

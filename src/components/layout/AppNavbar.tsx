@@ -208,14 +208,14 @@ const AppNavbar: React.FC = () => {
 
   return (
     <header
-      className="flex h-16 items-center justify-between border-b bg-gradient-to-r from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0] px-4 md:ps-6 dark:bg-gray-900"
+      className="flex h-16 items-center justify-between bg-gradient-to-r from-[#f8fafe] via-[#f8fafe] to-[#f8fafe] pr-4 md:ps-6 dark:bg-gray-900"
       style={{ marginLeft: state == "collapsed" ? "28px" : "" }}
     >
-      <div className="flex items-center mr-1 md:w-[200px]">
+      <div className="flex items-center md:w-[200px]">
         {" "}
         <Separator orientation="vertical" className="h-4" />
         <div
-          className="mr-2 cursor-pointer block md:hidden"
+          className="cursor-pointer block md:hidden"
           onClick={() => toggleSidebar()}
         >
           <img
@@ -224,7 +224,7 @@ const AppNavbar: React.FC = () => {
             className="w-6 max-w-none fill-slate-400"
           />
         </div>
-        <span className="md:text-lg font-medium text-[#1A2435] !mr-1">
+        <span className="md:text-lg font-medium text-[#1A2435]">
           {lastSegment ? capitalizeFirstLetter(lastSegment) : "Dashboard"}
         </span>
       </div>
@@ -391,16 +391,23 @@ const AppNavbar: React.FC = () => {
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className="h-10 w-10 cursor-pointer">
-              <AvatarImage
-                src={userData?.organizationId?.logo || userData?.profilePicture}
-                alt="User Avatar"
-                className="border-[0.5px] border-solid border-gray-400 rounded-full"
-              />
-              <AvatarFallback className="bg-[#e5e7eb] text-gray-700 dark:bg-gray-700 dark:text-gray-300">
-                {UserInitialName(userData?.name)}
-              </AvatarFallback>
-            </Avatar>
+            <div className="flex items-center space-x-2 cursor-pointer shadow-none border border-gray-200 rounded-xl p-1 md:pl-1 md:pr-3 md:py-2 h-12 md:min-w-[180px] transition-all duration-200 hover:bg-slate-100 bg-white outline-none">
+              <Avatar className="h-10 w-10 ring-2 ring-emerald-500/20 rounded-lg">
+                <AvatarImage
+                  src={
+                    userData?.organizationId?.logo || userData?.profilePicture
+                  }
+                  alt="User Avatar"
+                  className="rounded-lg"
+                />
+                <AvatarFallback className="bg-[#e5e7eb] text-gray-700 rounded-lg">
+                  {userData?.name ? UserInitialName(userData?.name) : "JD"}
+                </AvatarFallback>
+              </Avatar>
+              <span className="hidden text-sm font-semibold md:block text-gray-500">
+                {userData?.name || "No Name"}
+              </span>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"

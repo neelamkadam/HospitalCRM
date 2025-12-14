@@ -50,10 +50,8 @@ export function NavMain({
                 //     : "hover:bg-gray-100"
                 // } px-4 py-2 rounded-lg text-gray-700`}
                 className={`${
-                  isActive
-                    ? "bg-[#ffff] !hover:bg-[#EEEFF0]"
-                    : "hover:bg-gray-100"
-                } px-4 py-2 rounded-lg text-gray-700`}
+                  isActive ? "bg-[#d4e3fd] border-none" : "hover:bg-[#e8eff6]"
+                } px-4 py-1 rounded-e-full font-medium text-gray-700`}
               >
                 <SidebarMenuButton
                   asChild
@@ -64,13 +62,28 @@ export function NavMain({
                   // }`}
                   className={`${
                     isActive
-                      ? "!bg-[#ffff] !hover:bg-[#EEEFF0]"
-                      : "!hover:bg-gray-100"
+                      ? "!bg-[#d4e3fd] text-[#3062d6]"
+                      : "hover:!bg-[#e8eff6]"
                   }`}
                   tooltip={item.title}
                 >
                   <Link to={item.url} onClick={handleClick}>
-                    {item.icon && <img src={item.icon} alt="" sizes="25" />}
+                    {item.icon && (
+                      <img
+                        src={item.icon}
+                        alt=""
+                        sizes="25"
+                        className={isActive ? "brightness-0 saturate-100" : ""}
+                        style={
+                          isActive
+                            ? {
+                                filter:
+                                  "invert(25%) sepia(85%) saturate(2500%) hue-rotate(215deg) brightness(95%) contrast(95%)",
+                              }
+                            : {}
+                        }
+                      />
+                    )}
                     <span>{item.title}</span>
                   </Link>
                 </SidebarMenuButton>

@@ -27,6 +27,7 @@ const Login: React.FC = () => {
       email: "",
       password: "",
     },
+    mode: "onChange",
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();

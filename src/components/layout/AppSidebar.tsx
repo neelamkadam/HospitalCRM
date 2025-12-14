@@ -17,8 +17,8 @@ import BanknoteArrowUp from "../../assets/Svgs/BanknoteArrowUp.svg";
 import MessageIcon from "../../assets/Svgs/messages-square.svg";
 import Calender from "../../assets/Svgs/calendar-days.svg";
 import { useSelector } from "react-redux";
-import NewAppLogo from "../../assets/MedistryNew.png";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+// import FullAppLogo from "../../assets/App-Logo-Full.png";
+import AppLogo from "../../assets/App-Logo.png";
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   userPermissions?: string[];
@@ -150,56 +150,54 @@ export function AppSidebar({
     });
   }
 
-  const { state, toggleSidebar } = useSidebar();
+  const { state } = useSidebar();
 
   return (
     <Sidebar
       className={`${
         state == "collapsed" ? "!w-20" : ""
-      } !bg-gradient-to-b from-[#F8FAFC] via-[#F1F5F9] to-[#E2E8F0] !z-[999]`}
+      } !bg-gradient-to-b from-[#f8fafe] via-[#f8fafe] to-[#f8fafe] !z-[999] !border-none`}
       collapsible="icon"
       {...props}
     >
       <SidebarHeader>
         {state == "collapsed" ? (
           <div className="lg:pt-[10px] self-center">
-            <img src={NewAppLogo} className="h-8 w-8" alt="Header Image" />
-            <p
+            <img src={AppLogo} className="h-8 w-8" alt="Header Image" />
+            {/* <p
               className="w-6 h-6 shadow rounded-full !bg-transparent z-10 cursor-pointer mt-5 flex items-center justify-center absolute right-[-12px] top-0"
               onClick={() => toggleSidebar()}
             >
               <ChevronRight className="w-5" />
-            </p>
+            </p> */}
           </div>
         ) : (
           <div className="flex items-center gap-2 p-2.5 ml-7 animation-wrapper">
             <div>
               <img
-                src={NewAppLogo}
-                className="h-7 w-7 object-contain"
+                src={AppLogo}
+                className="h-10 w-10 object-contain"
                 alt="Header Image"
               />
             </div>
             <div className="relative w-[140px] overflow-hidden ml-[2px]">
               <div className="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-transparent to-transparent pointer-events-none z-10" />
               <div className="scrolling-text text-lg w-[140px] font-medium text-start text-[#394557] inline-block whitespace-nowrap will-change-transform">
-                {userData?.organizationId?.organizationName || "Medistry"}
+                {userData?.organizationId?.organizationName || "CareSynca"}
               </div>
             </div>
-            <p
+            {/* <p
               className="w-6 h-6 shadow rounded-full bg-white z-10 cursor-pointer mt-5 flex items-center justify-center absolute right-[-12px] top-0"
               onClick={() => toggleSidebar()}
             >
               <ChevronLeft className="w-5" />
-            </p>
+            </p> */}
           </div>
         )}
       </SidebarHeader>
 
       <SidebarContent
-        className={`${
-          state == "expanded" ? "space-y px-4 lg:mt-[12px]" : "lg:mt-[12px]"
-        }`}
+        className={`${state == "expanded" ? "space-y" : ""}  lg:mt-[12px]`}
       >
         {/* Pass handler to close sidebar on click */}
         <NavMain items={filteredNav} />

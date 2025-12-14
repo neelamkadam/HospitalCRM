@@ -80,7 +80,7 @@ const AppLayout: React.FC<LayoutProps> = ({
             <AppNavbar />
           </div>
         )}
-        <div className="!bg-[#fff] rounded-tl-3xl">
+        <div className="!bg-[#ffff] rounded-tl-3xl">
           <Outlet />
           {children}
         </div>

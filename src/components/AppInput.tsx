@@ -9,7 +9,7 @@ import { cn } from "../utils/common-utils";
 
 interface InputFieldProps<T extends FieldValues> {
   name: Path<T> | any;
-  form: UseFormReturn<T, any, undefined>;
+  form: UseFormReturn<T, any, any>;
   type?: "text" | "email" | "password" | "number" | "url";
   label?: string;
   validation?: RegisterOptions<T, Path<T>>;
