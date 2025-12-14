@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -14,7 +14,7 @@ import AppDeleteDialog from "../../components/AppDeleteDialog";
 import Select from "react-select";
 import { customSelectStyles } from "../../utils/common-utils";
 import { useForm } from "react-hook-form";
-import { Search } from "lucide-react";
+import { Search, Calendar, Clock, Users, CalendarCheck } from "lucide-react";
 import { useSidebar } from "../../components/ui/sidebar";
 import {
   Tooltip,
@@ -55,6 +55,35 @@ const AppointmentCalendar = () => {
   const { postData: UpdateAppointmentApi } = usePostApi<any>({
     path: `${API_CONSTANTS.APPOINTMENTS.UPDATE}/${selectedEvent?._id}`,
   });
+
+  // Calculate appointment stats
+  const appointmentStats = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    let todayCount = 0;
+    let upcomingCount = 0;
+    let pendingCount = 0;
+
+    appoinmentsData.forEach((appt: any) => {
+      const apptDate = new Date(appt.endTime);
+      apptDate.setHours(0, 0, 0, 0);
+
+      if (apptDate.getTime() === today.getTime()) {
+        todayCount++;
+      }
+      if (apptDate >= today) {
+        upcomingCount++;
+      }
+      if (appt.status === "pending") {
+        pendingCount++;
+      }
+    });
+
+    return { todayCount, upcomingCount, pendingCount };
+  }, [appoinmentsData]);
 
   useEffect(() => {
     fetchAppoinments();
@@ -173,8 +202,6 @@ const AppointmentCalendar = () => {
       const params = new URLSearchParams({
         search: "",
         doctorId: doctorId || "",
-        // startDateTime: "2024-04-04",
-        // endDateTime: "2025-04-04",
       });
       const endpoint = `${API_CONSTANTS.APPOINTMENTS.GET}?${params.toString()}`;
       const response: any = await GetAllAppointmentsApi(endpoint);
@@ -240,7 +267,6 @@ const AppointmentCalendar = () => {
     const formatted = appoinmentsData?.map((appt: any) => ({
       id: appt.id,
       title: appt.patientName,
-      // title: `${appt.patientName} ${appt?.doctorName}`,
       clientId: appt.clientId,
       start: appt.endTime,
       end: appt.endDateTime,
@@ -277,52 +303,6 @@ const AppointmentCalendar = () => {
       if (savedDate) calendarApi.gotoDate(savedDate);
     }
   }, []);
-
-  // const handleEventClick = (clickInfo: any) => {
-  //     setSelectedEvent((prev: any) => ({
-  //         ...prev,
-  //         clientName: clickInfo.event._def.title,
-  //         _id: clickInfo.event._def.publicId,
-  //         clientId: clickInfo.event.extendedProps.clientId,
-  //         TimeDateData: clickInfo.event.start,
-  //         duration: clickInfo.event.extendedProps.duration
-  //     }));
-  //     setSelectedSlot({
-  //         start: moment(clickInfo.event.start).format("YYYY-MM-DD"),
-  //         end: moment(clickInfo.event.start).format("YYYY-MM-DD"),
-  //     });
-  //     setIsModalOpen(true);
-  // };
-
-  // const handleEventClick = (clickInfo: any) => {
-  //     const eventDate = new Date(clickInfo.event.start);
-  //     const now = new Date();
-
-  //     // Strip time to compare only date
-  //     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  //     const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
-
-  //     // ⛔ Prevent clicking on past events
-  //     if (eventDay < today) return;
-
-  //     // ✅ Proceed as normal
-  //     setSelectedEvent((prev: any) => ({
-  //         ...prev,
-  //         clientName: clickInfo.event._def.title,
-  //         _id: clickInfo.event._def.publicId,
-  //         clientId: clickInfo.event.extendedProps.clientId,
-  //         doctorId: clickInfo.event.extendedProps.doctorId,
-  //         TimeDateData: clickInfo.event.start,
-  //         duration: clickInfo.event.extendedProps.duration,
-  //     }));
-
-  //     setSelectedSlot({
-  //         start: moment(clickInfo.event.start).format("YYYY-MM-DD"),
-  //         end: moment(clickInfo.event.start).format("YYYY-MM-DD"),
-  //     });
-
-  //     setIsModalOpen(true);
-  // };
 
   const handleEventClick = (clickInfo: any) => {
     const eventDate = new Date(clickInfo.event.start);
@@ -370,7 +350,6 @@ const AppointmentCalendar = () => {
       start: selectInfo.startStr,
       end: selectInfo.endStr,
     });
-    // setIsModalOpen(true);
   };
 
   const CustomPlaceholder = () => {
@@ -395,7 +374,6 @@ const AppointmentCalendar = () => {
     const finalData = {
       clientId: info.event._def.extendedProps.clientId,
       duration: info.event._def.extendedProps.duration.toString(),
-      // time: info.event.start,
       doctorId: info.event._def.publicId,
     };
     const appointmentId = info.event._def.publicId;
@@ -405,11 +383,11 @@ const AppointmentCalendar = () => {
       try {
         if (!info.event.start) return;
 
-        const startDate = new Date(info.event.start); // This is already a valid Date
+        const startDate = new Date(info.event.start);
         startDate.setSeconds(0);
         startDate.setMilliseconds(0);
 
-        const dateTime = startDate.toISOString(); // Start time in UTC
+        const dateTime = startDate.toISOString();
 
         const durationInMinutes = parseInt(
           info.event._def.extendedProps.duration
@@ -446,7 +424,6 @@ const AppointmentCalendar = () => {
         const data = await response.json();
         if (data?.success) {
           fetchAppoinments?.();
-          // toggleClose?.();
         } else {
           console.error(
             "Failed to update appointment",
@@ -478,42 +455,13 @@ const AppointmentCalendar = () => {
     setIsModalOpen(false);
   };
 
-  //  const handleDateClick = (arg: any) => {
-  //         const calendarApi = calendarRef.current?.getApi();
-  //         const clickedDate = arg.dateStr;
-
-  //         if (!calendarApi) return;
-
-  //         if (calendarApi.view.type === "dayGridMonth") {
-  //             // Only switch view — do NOT open modal
-  //             calendarApi.changeView("timeGridDay", clickedDate);
-  //         } else {
-  //             // Already in day/week view — open modal
-  //             const now = new Date();
-  //             now.setHours(0, 0, 0, 0);
-
-  //             const selectedDate = new Date(clickedDate);
-  //             selectedDate.setHours(0, 0, 0, 0);
-
-  //             if (selectedDate < now) return;
-
-  //             setSelectedSlot({
-  //                 start: clickedDate,
-  //                 end: clickedDate,
-  //             });
-
-  //             setIsModalOpen(true);
-  //         }
-  //     };
-
   const handleDateClick = (arg: any) => {
     const calendarApi = calendarRef.current?.getApi();
-    const clickedDate = arg.date; // use arg.date (Date object)
+    const clickedDate = arg.date;
 
     if (!calendarApi) return;
 
     if (calendarApi.view.type === "dayGridMonth") {
-      // Only switch view — do NOT open modal
       calendarApi.changeView("timeGridDay", arg.dateStr);
     } else {
       const today = new Date();
@@ -543,9 +491,6 @@ const AppointmentCalendar = () => {
     formState: { errors },
   } = form;
   console.log(errors);
-  // color: #666d79;
-  // font-size: 1rem;
-  // font-family: Inter, serif;
 
   const renderSlotLabel = (arg: any) => {
     const date: Date = arg.date;
@@ -571,9 +516,41 @@ const AppointmentCalendar = () => {
       className="pt-4 pl-4 pr-4 pb-4"
       style={{ marginLeft: state == "collapsed" ? "28px" : "" }}
     >
+      {/* Page Header Section */}
+      <div className="appointment-page-header">
+        <div className="appointment-header-content">
+          <div className="appointment-header-title">
+            <div className="appointment-header-icon">
+              <Calendar />
+            </div>
+            <div>
+              <h1>Appointments</h1>
+              <p>Manage and schedule patient appointments</p>
+            </div>
+          </div>
+
+          {/* Stats Cards */}
+          <div className="appointment-stats-grid">
+            <div className="appointment-stat-card">
+              <div className="appointment-stat-value">{appointmentStats.todayCount}</div>
+              <div className="appointment-stat-label">Today</div>
+            </div>
+            <div className="appointment-stat-card">
+              <div className="appointment-stat-value">{appointmentStats.upcomingCount}</div>
+              <div className="appointment-stat-label">Upcoming</div>
+            </div>
+            <div className="appointment-stat-card">
+              <div className="appointment-stat-value">{appointmentStats.pendingCount}</div>
+              <div className="appointment-stat-label">Pending</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Doctor Filter */}
       {userData.permissions?.includes("full_appointment_access") ||
       userData.permissions?.includes("admin") ? (
-        <div className="flex justify-start">
+        <div className="flex justify-start mb-4">
           <form>
             <div className="relative">
               <Select
@@ -592,12 +569,12 @@ const AppointmentCalendar = () => {
                   control: (provided: any, state: any) => ({
                     ...provided,
                     backgroundColor: "#fff",
-                    border: "none", // ✅ Always no border
+                    border: "none",
                     boxShadow: state.isFocused
                       ? "0px 0px 0px 4px #016B833D, 0px 1px 2px 0px #4E4E4E0D"
-                      : "none",
+                      : "0 2px 8px rgba(0, 0, 0, 0.08)",
                     padding: "2px 1px 0px 12px",
-                    borderRadius: "0.375rem",
+                    borderRadius: "12px",
                     width: "100%",
                     color: "#526279",
                     fontSize: "0.875rem",
@@ -609,7 +586,7 @@ const AppointmentCalendar = () => {
                     transition:
                       "border 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
                     "&:hover": {
-                      border: "none", // ✅ No border on hover too
+                      border: "none",
                     },
                   }),
                   singleValue: (base) => ({
@@ -619,6 +596,8 @@ const AppointmentCalendar = () => {
                   menu: (base) => ({
                     ...base,
                     zIndex: 9999,
+                    borderRadius: "12px",
+                    boxShadow: "0 10px 40px rgba(0, 0, 0, 0.12)",
                   }),
                   menuList: (base) => ({
                     ...base,
@@ -640,156 +619,174 @@ const AppointmentCalendar = () => {
         ""
       )}
 
-      <div
-        className={`calendar-wrapper ${
-          userData.permissions?.includes("full_appointment_access") ||
-          userData.permissions?.includes("admin")
-            ? "has-full-access"
-            : "no-access"
-        }`}
-      >
-        <FullCalendar
-          // contentHeight="570px"
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="timeGridWeek"
-          allDaySlot={false}
-          nowIndicator={true}
-          titleFormat={{ year: "numeric", month: "long" }}
-          views={{
-            timeGridWeek: {
-              dayHeaderContent: (args) => {
-                const date = args.date;
-                const day = date.getDate();
-                // const month = date.getMonth() + 1;
-                const weekday = date.toLocaleDateString("en-US", {
-                  weekday: "short",
-                });
-                return `${weekday} ${day}`;
-              },
-            },
-          }}
-          eventContent={(arg: any) => {
-            const doctorName = arg.event._def.extendedProps.doctorName;
-            // const fullText = `Patient: ${arg.event.title}\nDoctor: ${doctorName}`;
-            // Calculate event duration in milliseconds
-            const duration =
-              new Date(arg.event.end).getTime() -
-              new Date(arg.event.start).getTime();
-            const showDetails = duration > 30 * 60 * 1000; // Show extra info only if > 30 mins
-            return (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        height: "100%",
-                        width: "100%",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        padding: "2px 4px",
-                        fontSize: "12px",
-                        lineHeight: "1.2",
-                        // color: "#fff",
-                        fontFamily: "Inter, serif",
-                        fontWeight: 500,
-                      }}
-                    >
-                      <div>
-                        {arg.timeText.split(" - ")[0]}
-                        {!showDetails &&
-                          ` | ${
-                            userData.permissions?.includes(
-                              "full_appointment_access"
-                            ) || userData.permissions?.includes("admin")
-                              ? `${doctorName} | `
-                              : ""
-                          }${arg.event.title}`}
-                      </div>
-
-                      {showDetails && (
-                        <>
-                          <div
-                            style={{
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                              fontSize: "12px",
-                              lineHeight: "1.2",
-                              color:
-                                arg.event._def.extendedProps.status ===
-                                "pending"
-                                  ? "rgb(1, 87, 106)"
-                                  : arg.event._def.extendedProps.status ===
-                                    "rescheduled"
-                                  ? "rgb(1, 87, 106)"
-                                  : "",
-                              fontFamily: "Inter, serif",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {(userData.permissions?.includes(
-                              "full_appointment_access"
-                            ) ||
-                              userData.permissions?.includes("admin")) &&
-                            doctorName
-                              ? `  ${doctorName}`
-                              : ""}{" "}
-                            | {arg.event.title}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </TooltipTrigger>
-
-                  <TooltipContent className="bg-[#1A2435] text-white px-2 py-1 rounded text-xs max-w-[200px]">
-                    <div style={{ whiteSpace: "pre-line" }}>
-                      {`Patient: ${arg.event.title}\nDoctor: ${doctorName}`}
-                    </div>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            );
-          }}
-          slotLabelContent={renderSlotLabel}
-          ref={calendarRef}
-          timeZone="local"
-          selectable={true}
-          dateClick={handleDateClick}
-          select={handleDateSelect}
-          events={appointments}
-          headerToolbar={{
-            left: "",
-            center: "title",
-            right: "prev,next today timeGridDay,timeGridWeek,dayGridMonth",
-          }}
-          eventTimeFormat={{
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          }}
-          editable={true}
-          eventOverlap={true}
-          eventDrop={handleEventDrop}
-          eventClick={handleEventClick}
-          dayMaxEvents={true}
-          moreLinkClick={handleMoreLinkClick}
-          dayCellClassNames={(arg: any) => {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            if (arg.date < today) {
-              return "fc-day-disabled";
-            }
-            return "";
-          }}
-          viewDidMount={(view) => setCalendarView(view.view.type)}
-        />
+      {/* Status Legend */}
+      <div className="appointment-status-legend">
+        <div className="status-legend-item">
+          <div className="status-legend-dot approved"></div>
+          <span>Approved</span>
+        </div>
+        <div className="status-legend-item">
+          <div className="status-legend-dot pending"></div>
+          <span>Pending</span>
+        </div>
+        <div className="status-legend-item">
+          <div className="status-legend-dot rescheduled"></div>
+          <span>Rescheduled</span>
+        </div>
+        <div className="status-legend-item">
+          <div className="status-legend-dot cancelled"></div>
+          <span>Cancelled</span>
+        </div>
       </div>
+
+      {/* Calendar Container with Glassmorphism */}
+      <div className="calendar-glass-container">
+        <div
+          className={`calendar-wrapper ${
+            userData.permissions?.includes("full_appointment_access") ||
+            userData.permissions?.includes("admin")
+              ? "has-full-access"
+              : "no-access"
+          }`}
+        >
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="timeGridWeek"
+            allDaySlot={false}
+            nowIndicator={true}
+            titleFormat={{ year: "numeric", month: "long" }}
+            views={{
+              timeGridWeek: {
+                dayHeaderContent: (args) => {
+                  const date = args.date;
+                  const day = date.getDate();
+                  const weekday = date.toLocaleDateString("en-US", {
+                    weekday: "short",
+                  });
+                  return `${weekday} ${day}`;
+                },
+              },
+            }}
+            eventContent={(arg: any) => {
+              const doctorName = arg.event._def.extendedProps.doctorName;
+              const duration =
+                new Date(arg.event.end).getTime() -
+                new Date(arg.event.start).getTime();
+              const showDetails = duration > 30 * 60 * 1000;
+              return (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          height: "100%",
+                          width: "100%",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          padding: "2px 4px",
+                          fontSize: "12px",
+                          lineHeight: "1.2",
+                          fontFamily: "Inter, serif",
+                          fontWeight: 500,
+                        }}
+                      >
+                        <div>
+                          {arg.timeText.split(" - ")[0]}
+                          {!showDetails &&
+                            ` | ${
+                              userData.permissions?.includes(
+                                "full_appointment_access"
+                              ) || userData.permissions?.includes("admin")
+                                ? `${doctorName} | `
+                                : ""
+                            }${arg.event.title}`}
+                        </div>
+
+                        {showDetails && (
+                          <>
+                            <div
+                              style={{
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                fontSize: "12px",
+                                lineHeight: "1.2",
+                                color:
+                                  arg.event._def.extendedProps.status ===
+                                  "pending"
+                                    ? "rgb(1, 87, 106)"
+                                    : arg.event._def.extendedProps.status ===
+                                      "rescheduled"
+                                    ? "rgb(1, 87, 106)"
+                                    : "",
+                                fontFamily: "Inter, serif",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {(userData.permissions?.includes(
+                                "full_appointment_access"
+                              ) ||
+                                userData.permissions?.includes("admin")) &&
+                              doctorName
+                                ? `  ${doctorName}`
+                                : ""}{" "}
+                              | {arg.event.title}
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </TooltipTrigger>
+
+                    <TooltipContent className="bg-[#1A2435] text-white px-3 py-2 rounded-lg text-xs max-w-[200px] shadow-lg">
+                      <div style={{ whiteSpace: "pre-line" }}>
+                        {`Patient: ${arg.event.title}\nDoctor: ${doctorName}`}
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              );
+            }}
+            slotLabelContent={renderSlotLabel}
+            ref={calendarRef}
+            timeZone="local"
+            selectable={true}
+            dateClick={handleDateClick}
+            select={handleDateSelect}
+            events={appointments}
+            headerToolbar={{
+              left: "",
+              center: "title",
+              right: "prev,next today timeGridDay,timeGridWeek,dayGridMonth",
+            }}
+            eventTimeFormat={{
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            }}
+            editable={true}
+            eventOverlap={true}
+            eventDrop={handleEventDrop}
+            eventClick={handleEventClick}
+            dayMaxEvents={true}
+            moreLinkClick={handleMoreLinkClick}
+            dayCellClassNames={(arg: any) => {
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              if (arg.date < today) {
+                return "fc-day-disabled";
+              }
+              return "";
+            }}
+            viewDidMount={(view) => setCalendarView(view.view.type)}
+          />
+        </div>
+      </div>
+
       <AppModal
-        // disableOutsideClick={true}
         isOpen={isModalOpen}
         toggle={toggleClose}
         title=""
