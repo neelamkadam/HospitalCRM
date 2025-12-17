@@ -75,8 +75,6 @@ const HealthReportsPage: React.FC = () => {
   const [reportCount, setReportCount] = useState<any>();
   const { reportSearch } = useSelector((state: any) => state.searchData);
   const [changedStateReport, setChangedStateReport] = useState<any>({});
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [isScrollingUp, setIsScrollingUp] = useState(false);
   const [openFile, setOpenFile] = useState(false);
   const [uploadeFiles, setUploadFile] = useState(false);
   const lastScrollTop = useRef(0);
@@ -103,23 +101,24 @@ const HealthReportsPage: React.FC = () => {
   const { state } = useSidebar();
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
+  const isFetching = useRef(false);
+  const loadedPages = useRef<Set<number>>(new Set());
+
   const handleTableScroll = useCallback(() => {
     const container = tableContainerRef.current;
-    if (!container || loading) return;
+    if (!container || loading || isFetching.current) return;
 
     const { scrollTop, scrollHeight, clientHeight } = container;
 
     const isScrollingUpward = scrollTop < lastScrollTop.current;
     lastScrollTop.current = scrollTop;
-    setIsScrollingUp(isScrollingUpward);
 
-    if (isScrollingUpward && scrollTop === 0 && currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-      setScrollPosition(clientHeight);
-    } else if (
+    // Only load next page when scrolling down and near bottom
+    if (
       !isScrollingUpward &&
       scrollHeight - scrollTop - clientHeight < 50 &&
-      hasMore
+      hasMore &&
+      !loadedPages.current.has(currentPage + 1)
     ) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
@@ -150,14 +149,6 @@ const HealthReportsPage: React.FC = () => {
   useEffect(() => {
     handleGetReportCount();
   }, [openFile]);
-
-  useEffect(() => {
-    const container = tableContainerRef.current;
-    if (container && isScrollingUp && scrollPosition > 0) {
-      container.scrollTop = scrollPosition;
-      setScrollPosition(0);
-    }
-  }, [reportsList, isScrollingUp, scrollPosition]);
 
   const toggleClose = () => {
     setIsModalOpen((prev) => !prev);
@@ -300,14 +291,24 @@ const HealthReportsPage: React.FC = () => {
   };
 
   const fetchReports = async (resetPage = false) => {
+    if (isFetching.current) return;
+    isFetching.current = true;
+
     if (resetPage) {
       setCurrentPage(1);
       setReportsList([]);
       setHasMore(true);
+      loadedPages.current.clear();
     }
     const current = window?.location?.search?.split("=")[1];
     const pageSize = 25;
     const page = resetPage ? "1" : currentPage.toString();
+
+    // Skip if page already loaded (except for reset)
+    if (!resetPage && loadedPages.current.has(parseInt(page))) {
+      isFetching.current = false;
+      return;
+    }
 
     const params = new URLSearchParams({
       per_page: pageSize.toString(),
@@ -335,13 +336,21 @@ const HealthReportsPage: React.FC = () => {
       if (response?.data.success) {
         setChangedStateReport({});
         const newReports = response?.data?.reports?.items || [];
+        
+        // Mark this page as loaded
+        loadedPages.current.add(parseInt(page));
 
-        if (currentPage === 1) {
+        if (resetPage || currentPage === 1) {
           setReportsList(newReports);
-        } else if (isScrollingUp) {
-          setReportsList((prev) => [...newReports, ...prev]);
         } else {
-          setReportsList((prev) => [...prev, ...newReports]);
+          // Filter out duplicates when appending
+          setReportsList((prev) => {
+            const existingIds = new Set(prev.map((item: any) => item._id));
+            const uniqueNewReports = newReports.filter(
+              (report: any) => !existingIds.has(report._id)
+            );
+            return [...prev, ...uniqueNewReports];
+          });
         }
 
         setPagination((prevPagination: any) => ({
@@ -354,6 +363,8 @@ const HealthReportsPage: React.FC = () => {
     } catch (error) {
       console.error("Error fetching report data:", error);
       setHasMore(false);
+    } finally {
+      isFetching.current = false;
     }
   };
 

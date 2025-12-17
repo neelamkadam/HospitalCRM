@@ -784,3 +784,166 @@
 .appointment-stat-card:nth-child(3) {
   animation-delay: 0.3s;
 }
+
+/* === ADDITIONAL DESIGN TWEAKS & RESPONSIVE IMPROVEMENTS === */
+
+/* Calendar wrapper to control width, padding and subtle elevation */
+.calendar-wrapper {
+  padding: 18px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+  box-shadow: 0 8px 24px rgba(6, 22, 36, 0.06);
+  border: 1px solid rgba(1,87,106,0.06);
+}
+
+/* Variants for access level (keeps layout consistent) */
+.calendar-wrapper.has-full-access {
+  padding-right: 6%;
+}
+.calendar-wrapper.no-access {
+  padding-right: 2%;
+}
+
+/* Make toolbar and title feel more integrated */
+.fc .fc-toolbar { 
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Improve the look of the today button and compact controls */
+.fc .fc-button.fc-button-primary {
+  background: linear-gradient(90deg, #016B83, #01576A) !important;
+  color: #fff !important;
+}
+
+/* Style for the react-select control used for doctors */
+.search-Doctor {
+  font-family: 'Inter', sans-serif;
+}
+.search-Doctor .css-1wa3eu0-placeholder,
+.search-Doctor .css-1okebmr-indicatorSeparator {
+  display: none;
+}
+.search-Doctor .css-1pahdxg-control {
+  background: #fff;
+  border: 1px solid rgba(1,87,106,0.08);
+  box-shadow: 0 6px 18px rgba(1,87,106,0.06);
+  border-radius: 12px;
+  padding: 6px 10px;
+}
+.search-Doctor .css-1uccc91-singleValue {
+  color: #0f1724;
+  font-weight: 600;
+}
+
+/* Event badge styles to show quick status chips */
+.fc-event .event-chip {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+/* subtle animation when events appear or update */
+@keyframes eventPop {
+  0% { transform: scale(0.98); opacity: 0; }
+  60% { transform: scale(1.02); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.fc-event {
+  animation: eventPop 260ms ease both;
+}
+
+/* Improved tooltip appearance for accessibility */
+.tooltip-content, .fc-popover .fc-popover-body, .TooltipContent {
+  line-height: 1.4;
+  font-size: 13px;
+}
+
+/* Disabled past-days style (makes unavailable days visually distinct) */
+.fc-day-disabled {
+  background: linear-gradient(180deg, rgba(230,235,238,0.35), rgba(245,247,249,0.35));
+  color: #9aa7b1 !important;
+  pointer-events: none;
+}
+
+/* Mobile responsiveness: stack header and shrink paddings */
+@media (max-width: 768px) {
+  .appointment-page-header {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  .appointment-stats-grid {
+    gap: 8px;
+  }
+  .appointment-stat-card {
+    min-width: 110px;
+    padding: 12px 14px;
+  }
+  .calendar-glass-container {
+    padding: 12px;
+  }
+  .fc .fc-button {
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+  }
+  .fc .fc-col-header-cell,
+  .fc .fc-day-header {
+    font-size: 13px;
+  }
+}
+
+/* Larger screens: give calendar a max width and center */
+@media (min-width: 1200px) {
+  .calendar-glass-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* subtle focus ring for keyboard users */
+.fc .fc-button:focus {
+  box-shadow: 0 0 0 4px rgba(1,107,131,0.12) !important;
+}
+
+/* Visual cues for status via border highlights */
+.fc-event[style*="background-color: #ffffff"] {
+  border: 1px solid rgba(1,87,106,0.12) !important;
+}
+.fc-event[style*="background-color: #ffcccc"] {
+  border-left: 4px solid #e74c3c !important;
+}
+
+/* Ensure the calendar content keeps consistent line-height */
+.fc .fc-daygrid-event .fc-event-title,
+.fc .fc-timegrid-event .fc-event-title {
+  line-height: 1.15;
+}
+
+/* Make more-link card items clearer */
+.fc-timegrid-more-link {
+  background: rgba(1,87,106,0.06) !important;
+  color: #01576A !important;
+  border-radius: 8px !important;
+  padding: 4px 8px !important;
+  font-weight: 600 !important;
+}
+
+/* Tiny utility for consistent card spacing in the page */
+.appointment-page-header .appointment-header-content > div {
+  min-width: 0;
+}
+
+/* Accessibility: increase contrast on event text if background is light */
+.fc-event[style*="background-color: #ffffff"] .fc-event-main-frame,
+.fc-event[style*="background-color: #ffffff"] .fc-event-title {
+  color: rgb(1, 87, 106) !important;
+}
+
+/* End of additional design improvements */
